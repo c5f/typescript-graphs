@@ -8,9 +8,9 @@ export class EdgeListGraph implements Graph {
      * Instance Variables
      */
 
-    _nodes: Array;
+    _nodes: Array<EdgeListNode>;
 
-    _edges: Array;
+    _edges: Array<EdgeListEdge>;
 
     _size: Number;
 
@@ -18,7 +18,9 @@ export class EdgeListGraph implements Graph {
      * Constructor
      */
     constructor () {
-        // TODO: Implement this method
+        _nodes = [];
+        _edges = [];
+        _size = 0;
     }
 
     ///////////////////////////////////////
@@ -26,7 +28,7 @@ export class EdgeListGraph implements Graph {
     /**
      * Positional Container Methods
      */
-    
+
     /* Return the size of this container */
     size () {
         return this._size;
@@ -40,143 +42,190 @@ export class EdgeListGraph implements Graph {
     /**
      * General Methods
      */
-    
-    /* Return the number of nodes in this Graph */
+
+    /* Return the number of Nodes in this Graph */
     nodeCount () {
         return this._nodes.length();
     }
 
-    /* Return the number of edges in this Graph */
+    /* Return the number of Edges in this Graph */
     edgeCount () {
         return this._edges.length();
     }
 
-    /* Return an iterator over the nodes in this Graph */
+    /* Return an iterator over the Nodes in this Graph */
     nodes () {
-        // TODO: Implement this method
+        // Following language specs, Arrays are iterable...
+        return this._nodes;
     }
 
-    /* Return an iterator over the edges in this Graph */
+    /* Return an iterator over the Edges in this Graph */
     edges () {
-        // TODO: Implement this method
+        // Following language specs, Arrays are iterable...
+        return this._edges;
     }
 
-    /* Return an arbitrary node of this Graph */
+    /* Return an arbitrary Node in this Graph */
     aNode () {
-        // TODO: Implement this method
+        return _nodes[Math.floor(Math.random() * _nodes.length)];
     }
 
-    /* Return the degree of a given Node */
-    degree (n: Node) {
-        // TODO: Implement this method
+    /* Return the degree of a given Node n */
+    degree (n: EdgeListNode) {
+        return n.incomingIncidentEdgeCount + n.outgoingIncidentEdgeCount;
     }
 
-    /* Return an iterator of the nodes adjacent to Node n */
-    adjacentNodes (n: Node) {
-        // TODO: Implement this method
+    /* Return an iterator of the Nodes adjacent to Node n */
+    adjacentNodes (n: EdgeListNode) {
+        return this._edges.filter(function (e: EdgeListEdge) {
+            return e.incidentOn(n);    
+        });
     }
 
-    /* Return an iterator of the edges incident on Edge e */
-    incidentEdges (e: Edge) {
-        // TODO: Implement this method
+    /* Return an iterator of the edges incident on Node n */
+    incidentEdges (n: EdgeListNode) {
+        var endpoints: Array<EdgeListNode>;
+
+        return this._edges.filter(function (edge: EdgeListEdge) {
+            endpoints = this.endNodes(e);
+            
+            return endpoints.indexOf(n) >= 0;    
+        }, this);
     }
 
     /* Return an Array of size 2 containing the endpoint Nodes of Edge e */
-    endNodes (e: Edge) {
-        // TODO: Implement this method
+    endNodes (e: EdgeListEdge) {
+        return [e.origin, e.destination];
     }
 
     /* Return the endpoint of Edge e distinct from Node n */
-    opposite (n: Node, e: Edge) {
-        // TODO: Implement this method
+    opposite (n: EdgeListNode, e: EdgeListEdge) {
+        if (e.origin === n) {
+            return e.destination;
+        } else if (e.destination === n) {
+            return e.origin;
+        } else {
+            throw new Error(
+                'The provided Edge is not incident on the provided Node');
+        }
     }
 
     /* Return whether Nodes n and m are adjacent */
-    areAdjacent (n: Node, m: Node) {
-        // TODO: Implement this method
+    areAdjacent (n: EdgeListNode, m: EdgeListNode) {
+        var endpoints: Array<EdgeListNode>;
+
+        // Pick the Node with the smallest degree defaulting to n
+        var source: EdgeListNode = (this.degree(n) <= this.degree(m)) ? n : m;
+
+        return source.incidentEdges().some(function (edge: EdgeListEdge) {
+            endpoints = this.endNodes(edge);
+            
+            // Return true iff both endpoints belong to the same Edge
+            return endpoints.indexOf(n) >= 0 && endpoints.indexOf(m) >= 0;    
+        }, this);
     }
 
     /**
      * Directed Edge Methods
      */
-    
+
     /* Return an iterator of all directed Edges */
     directedEdges () {
-        // TODO: Implement this method
+        return this._edges.filter(function (edge: EdgeListEdge) {
+            return edge.isDirected;    
+        });
     }
 
     /* Return an iterator of all undirected Edges */
     undirectedEdges () {
-        // TODO: Implement this method
+        return this._edges.filter(function (edge: EdgeListEdge) {
+            return !edge.isDirected;
+        });
     }
 
     /* Return the destination of the Edge e */
-    destination (e: Edge) {
-        // TODO: Implement this method
+    destination (e: EdgeListEdge) {
+        return e.destination;
     }
 
     /* Return the origin of the Edge e */
-    isDirected (e: Edge) {
-        // TODO: Implement this method
+    isDirected (e: EdgeListEdge) {
+        return e.isDirected;
     }
 
     /* Return the in-degree of Node n */
-    inDegree (n: Node) {
-        // TODO: Implement this method
+    inDegree (n: EdgeListNode) {
+        return n.incomingIncidentEdgeCount;
     }
 
     /* Return the out-degree of Node n */
-    outDegree (n: Node) {
-        // TODO: Implement this method
+    outDegree (n: EdgeListNode) {
+        return n.outgoingIncidentEdgeCount;
     }
 
     /* Return an iterator of all the incoming Edges to Node n */
-    inIncidentEdges (n: Node) {
-        // TODO: Implement this method
+    inIncidentEdges (n: EdgeListNode) {
+        return this._edges.filter(function (edge: EdgeListEdge) {
+            return edge.destination === n;
+        });
     }
 
     /* Return an iterator of all the outgoing Edges to Node n */
-    outIncidentEdges (n: Node) {
-        // TODO: Implement this method
+    outIncidentEdges (n: EdgeListNode) {
+        return this._edges.filter(function (edge: EdgeListEdge) {
+            return edge.origin === n;
+        });
     }
 
     /*
      * Return an iterator of all the Nodes adjacent to Node n along incoming
      * edges
      */
-    inAdjacentNodes (n: Node) {
-        // TODO: Implement this method
+    inAdjacentNodes (n: EdgeListNode) {
+        return this.inIncidentEdges().map(function (edge: EdgeListEdge) {
+            return edge.origin;
+        });
     }
 
     /*
      * Return an iterator of all the Nodes adjacent to Node n along outgoing
      * edges
      */
-    outAdjacentNodes (n: Node) {
-        // TODO: Implement this method
+    outAdjacentNodes (n: EdgeListNode) {
+        return this.outIncidentEdges().map(function (edge: EdgeListEdge) {
+            return edge.destination;
+        })
     }
 
     /**
      * Update Methods
      */
-    
+
     /*
      * Insert and return an undirected edge between Nodes n and m storing
      * Object o at this Position
      */ 
-    insertEdge (n: Node, m: Node, o: Object) {
-        this._edges.push(new EdgeListEdge(n, m, o));
+    insertEdge (n: EdgeListNode, m: EdgeListNode, o: Object) {
+        var newEdge: EdgeListEdge = new EdgeListEdge(n, m, o);
+
+        n.outgoingIncidentEdgeCount++;
+        m.incomingIncidentEdgeCount++;
+
+        this._edges.push(newEdge);
+        this._size++;
+
+        return newEdge;
     }
 
     /*
      * Insert and return a directed Edge from Node n to Node m storing Object o
      * at this Position
      */
-    insertDirectedEdge (n: Node, m: Node, o: Object) {
-        var newEdge :EdgeListEdge = new EdgeListEdge(n, m, o);
-        newEdge.isDirected = true;
+    insertDirectedEdge (n: EdgeListNode, m: EdgeListNode, o: Object) {
+        var newEdge: EdgeListEdge = this.insertEdge(n, m, o);
 
-        this._edges.push(newEdge);
+        newEdge.isDirected = true;
+        return newEdge;
     }
 
     /*
@@ -184,38 +233,70 @@ export class EdgeListGraph implements Graph {
      * Position
      */
     insertNode (o: Object) {
-        this._nodes.push(new EdgeListNode(o));
+        var newNode: Node = new EdgeListNode(o);
+
+        this._nodes.push(newNode);
+        this._size++;
     }
 
     /* Remove Node n and all its incident Edges */
-    removeNode (n: Node) {
-        // TODO: Implement this method
+    removeNode (n: EdgeListNode) {
+        var edgeToRemove: Edge, targetIndex: Number;
+
+        targetIndex = this._nodes.indexOf(n);
+        if (targetIndex < 0) {
+            throw new Error('Node does not exist in this EdgeListGraph.');
+        }
+
+        /* TODO: Remove all Edges incident on the Node */
+        this.incidentEdges(n).forEach(function (edge: EdgeListEdge) {
+            this.removeEdge(edge);
+        }, this);
+
+        this._nodes.splice(targetIndex, 1);
+        this._size--;
     }
 
     /* Remove Edge e */
-    removeEdge (e: Edge) {
-        // TODO: Implement this method
+    removeEdge (e: EdgeListEdge) {
+        var targetIndex: Number;
+
+        targetIndex = this._edges.indexOf(e);
+        if (targetIndex < 0) {
+            throw new Error ('Edge does not exist in this EdgeListGraph.');
+        }
+
+        e.origin.outgoingIncidentEdgeCount--;
+        e.destination.incomingIncidentEdgeCount--;
+
+        this._edges.splice(targetIndex, 1);
+        this._size--;
     }
 
     /* Make Edge e undirected */
-    makeUndirected (e: Edge) {
+    makeUndirected (e: EdgeListEdge) {
         e.isDirected = false;
     }
 
     /* Reverse the direction of directed Edge e */
-    reverseDirection (e: Edge) {
-        var temp :Node = e.origin;
-        e.origin = e.destination;
-        e.destination = e.origin;
+    reverseDirection (e: EdgeListEdge) {
+        var origin: EdgeListNode = e.origin;
+
+        this.setDirectionFrom(e, e.destination);
+        this.setDirectionTo(e, origin);
     }
 
     /* Make Edge e directed away from Node n */
-    setDirectionFrom (e: Edge, n: Node) {
+    setDirectionFrom (e: EdgeListEdge, n: EdgeListNode) {
+        e.origin.outgoingIncidentEdgeCount--;
         e.origin = n;
+        e.origin.outgoingIncidentEdgeCount++;
     }
 
     /* Make Edge e directed into Node n */
-    setDirectionTo (e: Edge, n: Node) {
+    setDirectionTo (e: EdgeListEdge, n: EdgeListNode) {
+        e.destination.incomingIncidentEdgeCount--;
         e.destination = n;
+        e.destination.incomingIncidentEdgeCount++;
     }
 }

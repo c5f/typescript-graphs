@@ -9,10 +9,10 @@ import Edge = require('./graphBits');
 export class EdgeListNode implements Node {
 
     /* A counter for the number of incoming incident Edges */
-    incomingEdgeCount: Number;
+    incomingIncidentEdgeCount: Number;
 
     /* A counter for the number of outgoing incident Edges */
-    outgoingEdgeCount: Number;
+    outgoingIncidentEdgeCount: Number;
 
     /**
      * EdgeListNode constructor.
@@ -42,11 +42,12 @@ export class EdgeListEdge implements Edge {
      * Invoked by EdgeListGraph.insertEdge(n: Node, m: Node, o: Object) or
      * EdgeListGraph.insertDirectedEdge(n: Node, m: Node, o: Object).
      * 
-     * @param {Node}   origin      The origin Node.
-     * @param {Node}   destination The destination Node.
-     * @param {Object} contents    The Element at this Position.
+     * @param {Node}    origin      The origin Node.
+     * @param {Node}    destination The destination Node.
+     * @param {Object}  contents    The Element at this Position.
      */
-    constructor (public origin, public destination, public contents) {
+    constructor (public origin: EdgeListNode, public destination: EdgeListNode,
+            public contents: Object) {
         this.isDirected = false;
     }
 
