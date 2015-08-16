@@ -1,8 +1,11 @@
-import Graph = require('./graphInterface');
-import EdgeListNode = require('./edgeListGraphBits');
-import EdgeListEdge = require('./edgeListGraphBits');
+import G = require('../interfaces/graphInterface');
+import Graph = G.Graph;
 
-export class EdgeListGraph implements Graph {
+import B = require('./edgeListGraphBits');
+import EdgeListNode = B.EdgeListNode;
+import EdgeListEdge = B.EdgeListEdge;
+
+export class EdgeListGraph implements G.Graph {
 
     /**
      * Instance Variables
@@ -12,15 +15,15 @@ export class EdgeListGraph implements Graph {
 
     _edges: Array<EdgeListEdge>;
 
-    _size: Number;
+    _size: number;
 
     /**
      * Constructor
      */
     constructor () {
-        _nodes = [];
-        _edges = [];
-        _size = 0;
+        this._nodes = new Array();
+        this._edges = new Array();
+        this._size = 0;
     }
 
     ///////////////////////////////////////
@@ -45,29 +48,31 @@ export class EdgeListGraph implements Graph {
 
     /* Return the number of Nodes in this Graph */
     nodeCount () {
-        return this._nodes.length();
+        return this._nodes.length;
     }
 
     /* Return the number of Edges in this Graph */
     edgeCount () {
-        return this._edges.length();
+        return this._edges.length;
     }
 
     /* Return an iterator over the Nodes in this Graph */
     nodes () {
-        // Following language specs, Arrays are iterable...
-        return this._nodes;
+        return this._nodes.slice();
     }
 
     /* Return an iterator over the Edges in this Graph */
     edges () {
-        // Following language specs, Arrays are iterable...
-        return this._edges;
+        return this._edges.slice();
     }
 
     /* Return an arbitrary Node in this Graph */
     aNode () {
-        return _nodes[Math.floor(Math.random() * _nodes.length)];
+        if (this.isEmpty()) {
+            throw new Error('There are no nodes');
+        }
+
+        return this._nodes[Math.floor(Math.random() * this._nodes.length)];
     }
 
     /* Return the degree of a given Node n */
@@ -77,9 +82,15 @@ export class EdgeListGraph implements Graph {
 
     /* Return an iterator of the Nodes adjacent to Node n */
     adjacentNodes (n: EdgeListNode) {
+        // Filter the edges that are incident on this node
         return this._edges.filter(function (e: EdgeListEdge) {
             return e.incidentOn(n);    
-        });
+        })
+
+        // Map the filtered edges and return the node opposite to this node
+        .map(function (e: EdgeListEdge) {
+            return this.opposite(n, e);
+        }, this);
     }
 
     /* Return an iterator of the edges incident on Node n */
@@ -87,7 +98,7 @@ export class EdgeListGraph implements Graph {
         var endpoints: Array<EdgeListNode>;
 
         return this._edges.filter(function (edge: EdgeListEdge) {
-            endpoints = this.endNodes(e);
+            endpoints = this.endNodes(edge);
             
             return endpoints.indexOf(n) >= 0;    
         }, this);
@@ -105,8 +116,7 @@ export class EdgeListGraph implements Graph {
         } else if (e.destination === n) {
             return e.origin;
         } else {
-            throw new Error(
-                'The provided Edge is not incident on the provided Node');
+            throw new Error('The provided Edge is not incident on the provided Node');
         }
     }
 
@@ -115,9 +125,11 @@ export class EdgeListGraph implements Graph {
         var endpoints: Array<EdgeListNode>;
 
         // Pick the Node with the smallest degree defaulting to n
-        var source: EdgeListNode = (this.degree(n) <= this.degree(m)) ? n : m;
+        var source: EdgeListNode = (this.degree(n) <= this.degree(m)) ?
+            n : m;
 
-        return source.incidentEdges().some(function (edge: EdgeListEdge) {
+        return this.incidentEdges(source).some(
+                function (edge: EdgeListEdge) {
             endpoints = this.endNodes(edge);
             
             // Return true iff both endpoints belong to the same Edge
@@ -182,7 +194,7 @@ export class EdgeListGraph implements Graph {
      * edges
      */
     inAdjacentNodes (n: EdgeListNode) {
-        return this.inIncidentEdges().map(function (edge: EdgeListEdge) {
+        return this.inIncidentEdges(n).map(function (edge: EdgeListEdge) {
             return edge.origin;
         });
     }
@@ -192,7 +204,7 @@ export class EdgeListGraph implements Graph {
      * edges
      */
     outAdjacentNodes (n: EdgeListNode) {
-        return this.outIncidentEdges().map(function (edge: EdgeListEdge) {
+        return this.outIncidentEdges(n).map(function (edge: EdgeListEdge) {
             return edge.destination;
         })
     }
@@ -203,9 +215,9 @@ export class EdgeListGraph implements Graph {
 
     /*
      * Insert and return an undirected edge between Nodes n and m storing
-     * Object o at this Position
+     * any o at this Position
      */ 
-    insertEdge (n: EdgeListNode, m: EdgeListNode, o: Object) {
+    insertEdge (n: EdgeListNode, m: EdgeListNode, o: any) {
         var newEdge: EdgeListEdge = new EdgeListEdge(n, m, o);
 
         n.outgoingIncidentEdgeCount++;
@@ -217,31 +229,27 @@ export class EdgeListGraph implements Graph {
         return newEdge;
     }
 
-    /*
-     * Insert and return a directed Edge from Node n to Node m storing Object o
-     * at this Position
-     */
-    insertDirectedEdge (n: EdgeListNode, m: EdgeListNode, o: Object) {
+    /* Insert and return a directed Edge from Node n to Node m storing any o at this Position */
+    insertDirectedEdge (n: EdgeListNode, m: EdgeListNode, o: any) {
         var newEdge: EdgeListEdge = this.insertEdge(n, m, o);
 
         newEdge.isDirected = true;
         return newEdge;
     }
 
-    /*
-     * Insert and return a new (isolated) Node storing the Object o at this
-     * Position
-     */
-    insertNode (o: Object) {
-        var newNode: Node = new EdgeListNode(o);
+    /* Insert and return a new (isolated) Node storing the any o at this Position */
+    insertNode (o: any) {
+        var newNode: EdgeListNode = new EdgeListNode(o);
 
         this._nodes.push(newNode);
         this._size++;
+
+        return newNode;
     }
 
     /* Remove Node n and all its incident Edges */
     removeNode (n: EdgeListNode) {
-        var edgeToRemove: Edge, targetIndex: Number;
+        var edgeToRemove: EdgeListEdge, targetIndex: number;
 
         targetIndex = this._nodes.indexOf(n);
         if (targetIndex < 0) {
@@ -259,7 +267,7 @@ export class EdgeListGraph implements Graph {
 
     /* Remove Edge e */
     removeEdge (e: EdgeListEdge) {
-        var targetIndex: Number;
+        var targetIndex: number;
 
         targetIndex = this._edges.indexOf(e);
         if (targetIndex < 0) {

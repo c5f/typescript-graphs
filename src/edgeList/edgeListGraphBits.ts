@@ -1,29 +1,31 @@
-import Node = require('./graphBits');
-import Edge = require('./graphBits');
+import B = require('../interfaces/graphBits');
+import GraphNode = B.GraphNode;
+import GraphEdge = B.GraphEdge;
+
 /* These are the EdgeListGraph bits */
 
 /**
  * This is the EdgeListNode class that stores information required for the
  * EdgeListGraph implementation.
  */
-export class EdgeListNode implements Node {
+export class EdgeListNode implements GraphNode {
 
     /* A counter for the number of incoming incident Edges */
-    incomingIncidentEdgeCount: Number;
+    incomingIncidentEdgeCount: number;
 
     /* A counter for the number of outgoing incident Edges */
-    outgoingIncidentEdgeCount: Number;
+    outgoingIncidentEdgeCount: number;
 
     /**
      * EdgeListNode constructor.
      *
-     * Invoked by EdgeListGraph.insertNode(o :Object).
+     * Invoked by EdgeListGraph.insertNode(o :any).
      * 
-     * @param {Object} contents The Element at this Position.
+     * @param {any} contents The Element at this Position.
      */
-    constructor (public contents) {
-        this.incomingEdgeCount = 0;
-        this.outgoingEdgeCount = 0;
+    constructor (public contents: any) {
+        this.incomingIncidentEdgeCount = 0;
+        this.outgoingIncidentEdgeCount = 0;
     }
 }
 
@@ -31,23 +33,22 @@ export class EdgeListNode implements Node {
  * This is the EdgeListEdge class that stores information required for the
  * EdgeListGraph implementation.
  */
-export class EdgeListEdge implements Edge {
+export class EdgeListEdge implements GraphEdge {
 
     /* A Boolean indicator of whether this Edge is directed or undirected */
-    isDirected: Boolean;
+    isDirected: boolean;
 
     /**
      * The EdgeListEdge constructor.
      *
-     * Invoked by EdgeListGraph.insertEdge(n: Node, m: Node, o: Object) or
-     * EdgeListGraph.insertDirectedEdge(n: Node, m: Node, o: Object).
+     * Invoked by EdgeListGraph.insertEdge(n: Node, m: Node, o: any) or
+     * EdgeListGraph.insertDirectedEdge(n: Node, m: Node, o: any).
      * 
      * @param {Node}    origin      The origin Node.
      * @param {Node}    destination The destination Node.
-     * @param {Object}  contents    The Element at this Position.
+     * @param {any}  contents    The Element at this Position.
      */
-    constructor (public origin: EdgeListNode, public destination: EdgeListNode,
-            public contents: Object) {
+    constructor (public origin: EdgeListNode, public destination: EdgeListNode, public contents: any) {
         this.isDirected = false;
     }
 
