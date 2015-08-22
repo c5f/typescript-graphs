@@ -13,6 +13,9 @@
         ]
     },
     "files": [
+        "src/dStarLite/dStarKey.ts",
+        "src/dStarLite/dStarLite.ts",
+        "src/dStarLite/dStarNode.ts",
         "src/edgeList/edgeListGraph.ts",
         "src/edgeList/edgeListGraphBits.ts",
         "src/interfaces/graphBits.ts",
