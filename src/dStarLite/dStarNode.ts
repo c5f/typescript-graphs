@@ -1,12 +1,19 @@
 /**
  * Author: Colin Scott-Fleming colin@scott-fleming.com
+ *
+ * The DStarNode stores values for simple DStarLite operations assuming the
+ * cost to get to each node in the grid is stored in the node's contents
+ * property.
+ *
+ * The other properties are used by the algorithm to track and manage the node
+ * state and to provide O(1) access to properties and the node's neighbors.
  */
 import B = require('../interfaces/graphBits');
 import GraphNode = B.GraphNode;
 
 export class DStarNode implements GraphNode {
 
-    /* The contents of this node */
+    /* The risk cost of this node */
     contents: number;
 
     /* The current estimated distance from this node to the start node */

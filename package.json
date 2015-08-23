@@ -1,6 +1,6 @@
 {
   "name": "typescript-graphs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "TypeScript Graphs",
   "main": "edgeListGraph.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "chai": "^2.0.0",
     "mocha": "^2.2.5",
     "nodemon": "*",
-    "parallelshell": "*"
+    "parallelshell": "*",
+    "typescript": "*"
   }
 }

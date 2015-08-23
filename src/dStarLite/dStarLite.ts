@@ -365,10 +365,15 @@ module DStarLite {
          * The main D* Lite method.
          *
          * O(n log n) where n is nodes visited to initially find a shortest
-         * path.
+         * path.  this is similar to A* and n can grow to the grid size for
+         * particularly bad grids.
          *
-         * O(n^2 log n) for rapidly changing weights that change while
-         * traversing a very long path.
+         * O(c * n log n) where c is the number of times that the agent
+         * encounters edge changes while the path is traversed.
+         *
+         * n can grow as large as grid size for particularly bad grids, and c
+         * can grow to the path lengh (also the grid size) if grid-wide cost
+         * changes are encountered at every step.
          */
         main() {
 
