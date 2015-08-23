@@ -13,10 +13,15 @@
         ]
     },
     "files": [
+        "src/dStarLite/dStarKey.ts",
+        "src/dStarLite/dStarLite.ts",
+        "src/dStarLite/dStarNode.ts",
         "src/edgeList/edgeListGraph.ts",
         "src/edgeList/edgeListGraphBits.ts",
         "src/interfaces/graphBits.ts",
         "src/interfaces/graphInterface.ts",
+        "src/interfaces/key.ts",
+        "src/interfaces/priorityQueue.ts",
         "src/lib/chai/chai.d.ts",
         "src/lib/mocha/mocha.d.ts",
         "src/lib/tsd.d.ts",
