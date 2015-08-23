@@ -63,7 +63,7 @@ export interface PriorityQueue<T, Key> {
      * Updates the given element's key in the list, possibly changing its
      * position in the queue.
      *
-     * Heap:remove/insert
+     * remove/insert
      *
      * Binary Heap: Θ(log n)
      * Fibonacci Heap: Θ(1)
@@ -76,9 +76,9 @@ export interface PriorityQueue<T, Key> {
     /**
      * Removes the element from the queue.
      *
-     * Heap:decreasePriority/pop
+     * Heap:decreasePriority/removeMin
      * 
-     * @param {T} element [description]
+     * @param {T} element The element to remove.
      */
     remove(element: T);
 
@@ -92,4 +92,57 @@ export interface PriorityQueue<T, Key> {
      * This is important in the consideration that D* Lite triggers many fewer
      * heap merges than A*.
      */
+    
+    /**
+     * This method is required for DStarLite as updateNode conditionally
+     * executes code based on the membership of a node in the queue.
+     *
+     * This is not a normal heap operation, but it may be useful for internal
+     * operations depending on the underlying implementation.
+     *
+     * This membership test may be more efficiently implemented by the
+     * DStarLite class using a map.
+     *
+     * @param {T} element The element on which to test membership.
+     * @return {boolean}  true iff the element is in the queue.
+     */
+    contains(element: T);
+}
+
+export class DummyQueue<Node, Key> implements PriorityQueue<Node, Key> {
+    
+    insert (element: Node, key: Key) {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    removeMin () {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    topElement () {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    topKey () {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    update (element: Node, Key: Key) {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    remove (element: Node) {
+        throw new Error('DummyQueue is a placeholder.');
+        return null;
+    }
+
+    contains(element: Node) {
+        throw new Error('DummyQueue is a placehodlder');
+        return null;
+    }
 }
