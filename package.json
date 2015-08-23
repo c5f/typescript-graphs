@@ -1,0 +1,27 @@
+{
+  "name": "typescript-graphs",
+  "version": "0.1.0",
+  "description": "TypeScript Graphs",
+  "main": "edgeListGraph.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run watch",
+    "test": "NODE_ENV=test mocha -c -R min built/test",
+    "watch": "parallelshell 'npm run watch:build' 'npm run watch:test'",
+    "watch:build": "nodemon -e ts --watch src --exec npm run build",
+    "watch:test": "nodemon -e js --watch built --exec npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "nsgit:cix/typescript-graphs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "mocha": "^2.2.5",
+    "nodemon": "*",
+    "parallelshell": "*",
+    "typescript": "*"
+  }
+}

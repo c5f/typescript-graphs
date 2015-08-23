@@ -4,29 +4,29 @@
  * This is the Node class that represents a particular Node or vertex in a
  * Graph.
  */
-export interface Node {
+export interface GraphNode {
 
     /* The Element at this Position */
-    contents: Object;
+    contents: any;
 }
 
 /**
  * This is the Edge class that represents a relation between two Nodes in a
  * Graph.
  */
-export interface Edge {
+export interface GraphEdge {
     /* The Element at this Position */
-    contents: Object;
+    contents: any;
 
     /* Return whether this Edge is directed */
-    isDirected: Boolean;
+    isDirected: boolean;
 
     /* Return the Node of this Edge's origin */
-    origin: Node;
+    origin: GraphNode;
 
     /* Return the Node of this Edge's destiny */
-    destination: Node;
+    destination: GraphNode;
 
     /* Return whether this Edge is incident on Node n */
-    incidentOn (n: Node);
+    incidentOn (n: GraphNode);
 }
