@@ -3,6 +3,13 @@ TypeScript Graphs
 
 This repository contains various graph components and implementations written in [TypeScript][ts].
 
+Apollo Proposal
+---------------
+
+`src/dStarLite/dStarLite.ts` has the main implementation and includes requirements that have more details.
+
+`src/dStarLite/dStarKey.ts` and `src/dStarLite/dStarNode.ts` are fairly straightforward, and `src/interfaces/priorityQueue.ts` contains the queue description, analysis, and a placeholder `DummyQueue` implementation to allow compilation.
+
 System Requirements
 -------------------
 
@@ -18,10 +25,10 @@ From the cloned repository, install dev dependencies:
 Compiling
 ---------
 
-After installing dependencies, the `watch` script will run the `tsc` compiler on source file changes before executing the `test` script.  See package.json and tsconfig.json for more information, as well as the npm and TypeScript documentation to explain the structure of each.
+After installing dependencies, the `watch` npm script will watch for changes and run the `tsc` compiler on source file changes before executing the `test` npm script.  See package.json and tsconfig.json for more information, as well as the npm and TypeScript documentation to explain the structure of each.
 
-[ArcicTypeScript][ats] is an IDE-grade Sublime Text 3 integration for TypeScript projects.
-
+[ArcticTypescript][ats] is an IDE-grade Sublime Text 3 integration for TypeScript projects.
+    
 Resources
 ---------
 
