@@ -1,4 +1,4 @@
-TypeScript Graphs
+TypeScript Graphs [![Build Status](https://travis-ci.org/colinsf/typescript-graphs.svg?branch=develop)][travis]
 =================
 
 This repository contains various graph components and implementations written in [TypeScript][ts].
@@ -13,13 +13,14 @@ Apollo Proposal
 System Requirements
 -------------------
 
-NodeJS - tested on 0.10.40, 0.12.7 & iojs-v3.1.0
+* [nvm][nvm]
 
 Setup
 -----
 
 From the cloned repository, install dev dependencies:
 
+    nvm install
     npm install
 
 Compiling
@@ -35,7 +36,15 @@ Resources
 * [TypeScript Handbook][ts_handbook]
 * [TypeScript Language Spec][ts_spec]
 
-[ts]: http://www.typescriptlang.org
+Contributing
+------------
+
+I use [git-flow][git_flow], but you don't have to.  Please submit PRs to the develop branch.
+
+[travis]: https://travis-ci.org/colinsf/typescript-graphs
+[ts]: //www.typescriptlang.org
+[nvm]: https://github.com/creationix/nvm
 [ats]: https://github.com/Phaiax/ArcticTypescript
-[ts_handbook]: http://www.typescriptlang.org/Handbook
-[ts_spec]: http://www.typescriptlang.org/Content/TypeScript%20Language%20Specification.pdf
+[ts_handbook]: //www.typescriptlang.org/Handbook
+[ts_spec]: //www.typescriptlang.org/Content/TypeScript%20Language%20Specification.pdf
+[git_flow]: https://github.com/nvie/gitflow
