@@ -1,4 +1,4 @@
-TypeScript Graphs
+TypeScript Graphs [![Build Status](https://travis-ci.org/colinsf/typescript-graphs.svg?branch=develop)][travis]
 =================
 
 This repository contains various graph components and implementations written in [TypeScript][ts].
@@ -41,6 +41,7 @@ Contributing
 
 I use [git-flow][git_flow], but you don't have to.  Please submit PRs to the develop branch.
 
+[travis]: https://travis-ci.org/colinsf/typescript-graphs
 [ts]: //www.typescriptlang.org
 [nvm]: /creationix/nvm
 [ats]: /Phaiax/ArcticTypescript
