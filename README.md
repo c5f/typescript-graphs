@@ -36,8 +36,14 @@ Resources
 * [TypeScript Handbook][ts_handbook]
 * [TypeScript Language Spec][ts_spec]
 
-[ts]: http://www.typescriptlang.org
-[nvm]: https://github.com/creationix/nvm
-[ats]: https://github.com/Phaiax/ArcticTypescript
-[ts_handbook]: http://www.typescriptlang.org/Handbook
-[ts_spec]: http://www.typescriptlang.org/Content/TypeScript%20Language%20Specification.pdf
+Contributing
+------------
+
+I use [git-flow][git_flow], but you don't have to.  Please submit PRs to the develop branch.
+
+[ts]: //www.typescriptlang.org
+[nvm]: /creationix/nvm
+[ats]: /Phaiax/ArcticTypescript
+[ts_handbook]: //www.typescriptlang.org/Handbook
+[ts_spec]: //www.typescriptlang.org/Content/TypeScript%20Language%20Specification.pdf
+[git_flow]: /nvie/gitflow
