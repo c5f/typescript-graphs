@@ -13,13 +13,14 @@ Apollo Proposal
 System Requirements
 -------------------
 
-NodeJS - tested on 0.10.40, 0.12.7 & iojs-v3.1.0
+* [nvm][nvm]
 
 Setup
 -----
 
 From the cloned repository, install dev dependencies:
 
+    nvm install
     npm install
 
 Compiling
@@ -36,6 +37,7 @@ Resources
 * [TypeScript Language Spec][ts_spec]
 
 [ts]: http://www.typescriptlang.org
+[nvm]: https://github.com/creationix/nvm
 [ats]: https://github.com/Phaiax/ArcticTypescript
 [ts_handbook]: http://www.typescriptlang.org/Handbook
 [ts_spec]: http://www.typescriptlang.org/Content/TypeScript%20Language%20Specification.pdf
