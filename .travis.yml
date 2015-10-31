@@ -1,0 +1,3 @@
+# see .nvmrc
+language: node_js
+script: "npm run travis"
