@@ -249,7 +249,7 @@ export class EdgeListGraph implements G.Graph {
 
     /* Remove Node n and all its incident Edges */
     removeNode (n: EdgeListNode) {
-        var edgeToRemove: EdgeListEdge, targetIndex: number;
+        var targetIndex: number;
 
         targetIndex = this._nodes.indexOf(n);
         if (targetIndex < 0) {
